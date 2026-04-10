@@ -1,0 +1,124 @@
+{
+  "transactions": [
+    {
+      "id": "txn_001",
+      "amount": 450,
+      "merchant": "Swiggy",
+      "timestamp": "2025-04-05T20:30:00",
+      "raw_description": "Swiggy Food Order",
+      "ml_category": "FOOD",
+      "confidence": 0.94,
+      "anomaly_score": 0.45,
+      "is_impulse": false
+    },
+    {
+      "id": "txn_002",
+      "amount": 650,
+      "merchant": "Zomato",
+      "timestamp": "2025-04-05T23:15:00",
+      "raw_description": "Zomato Order",
+      "ml_category": "FOOD",
+      "confidence": 0.96,
+      "anomaly_score": 0.72,
+      "is_impulse": true
+    },
+    {
+      "id": "txn_003",
+      "amount": 300,
+      "merchant": "Uber",
+      "timestamp": "2025-04-06T09:00:00",
+      "raw_description": "Uber Trip",
+      "ml_category": "TRANSPORT",
+      "confidence": 0.99,
+      "anomaly_score": 0.12,
+      "is_impulse": false
+    },
+    {
+      "id": "txn_004",
+      "amount": 350,
+      "merchant": "Starbucks",
+      "timestamp": "2025-04-06T15:30:00",
+      "raw_description": "Starbucks Coffee",
+      "ml_category": "FOOD",
+      "confidence": 0.93,
+      "anomaly_score": 0.28,
+      "is_impulse": false
+    },
+    {
+      "id": "txn_005",
+      "amount": 1200,
+      "merchant": "PVR Cinemas",
+      "timestamp": "2025-04-04T19:00:00",
+      "raw_description": "Movie Tickets",
+      "ml_category": "ENTERTAINMENT",
+      "confidence": 0.95,
+      "anomaly_score": 0.33,
+      "is_impulse": false
+    },
+    {
+      "id": "txn_006",
+      "amount": 4600,
+      "merchant": "Amazon",
+      "timestamp": "2025-04-02T14:20:00",
+      "raw_description": "Electronics",
+      "ml_category": "SHOPPING",
+      "confidence": 0.98,
+      "anomaly_score": 0.88,
+      "is_impulse": true
+    },
+    {
+      "id": "txn_007",
+      "amount": 1500,
+      "merchant": "Blinkit",
+      "timestamp": "2025-04-06T23:45:00",
+      "raw_description": "Late night snacks",
+      "ml_category": "FOOD",
+      "confidence": 0.91,
+      "anomaly_score": 0.79,
+      "is_impulse": true
+    }
+  ],
+  "behavioral_patterns": {
+    "weekend_spike": {
+      "category": "FOOD",
+      "percentage_increase": 45,
+      "confidence": 0.88
+    },
+    "late_night_impulse": {
+      "category": "FOOD",
+      "avg_amount": 1100,
+      "frequency_per_week": 3,
+      "total_last_week": 1500
+    },
+    "category_velocity": {
+      "FOOD": {
+        "transactions_last_hour": 0,
+        "transactions_last_day": 4,
+        "threshold_exceeded": false
+      }
+    }
+  },
+  "impulse_radar": {
+    "current_risk_score": 72,
+    "risk_level": "HIGH",
+    "top_trigger": "Late-night food spending",
+    "recent_anomalies": ["txn_002", "txn_006", "txn_007"]
+  },
+  "lstm_forecast": {
+    "tomorrow_predicted_spend": 1450,
+    "weekly_baseline": 9800,
+    "overspend_probability": 0.65
+  },
+  "budget": {
+    "monthly_budget": 20000,
+    "saved_so_far": 28000,
+    "goal_name": "Thailand Trip",
+    "goal_target": 50000,
+    "goal_progress": 0.6,
+    "vacation_fund": 12000,
+    "vacation_target": 20000,
+    "new_laptop_saved": 6000,
+    "laptop_target": 10000
+  },
+  "monthly_trend": [3600, 24200, 2200, 2500, 2800, 3200]
+}
