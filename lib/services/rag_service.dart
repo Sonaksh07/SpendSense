@@ -2,22 +2,42 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class RagService {
-  final String baseUrl = "http://10.93.3.38:8000";
-//10.0.2.2
-  Future<Map<String, dynamic>> analyzeText(String text) async {
-    final response = await http.post(
-      Uri.parse("$baseUrl/transaction"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "text": text,
-        "current_monthly_spend": 0
-      }),
-    );
+  static const String _baseUrlFromEnv =
+      String.fromEnvironment('SPENDSENSE_API_BASE_URL', defaultValue: '');
+  static const String _defaultBaseUrl = "http://127.0.0.1:8000";
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception("API failed");
+  String get baseUrl =>
+      _baseUrlFromEnv.trim().isEmpty ? _defaultBaseUrl : _baseUrlFromEnv;
+
+  Future<Map<String, dynamic>> analyzeText(String text) async {
+    final uri = Uri.parse("$baseUrl/transaction");
+
+    try {
+      final response = await http
+          .post(
+            uri,
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode({
+              "text": text,
+              "current_monthly_spend": 0,
+            }),
+          )
+          .timeout(const Duration(seconds: 12));
+
+      if (response.statusCode != 200) {
+        throw Exception(
+          "API failed (${response.statusCode}) at $uri: ${response.body}",
+        );
+      }
+
+      final decoded = jsonDecode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        throw Exception("Unexpected API response format from $uri");
+      }
+
+      return decoded;
+    } catch (e) {
+      throw Exception("API request failed for $uri: $e");
     }
   }
 }
