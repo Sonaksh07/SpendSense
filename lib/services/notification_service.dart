@@ -76,6 +76,9 @@ class NotificationService {
   double _toDouble(dynamic value) {
     if (value is num) return value.toDouble();
     if (value is String) return double.tryParse(value.trim()) ?? 0.0;
+    if (value != null) {
+      print("⚠️ Unexpected amount type from API: ${value.runtimeType}");
+    }
     return 0.0;
   }
 
@@ -92,6 +95,7 @@ class NotificationService {
   }
 
   String _toMerchant(Map<String, dynamic> payload) {
+    // Support common aliases from different API payloads.
     final rawMerchant = payload["merchant"] ?? payload["vendor"] ?? payload["payee"];
     if (rawMerchant == null) return "Unknown";
     final merchant = rawMerchant.toString().trim();
