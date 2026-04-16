@@ -68,8 +68,8 @@ class NotificationService {
   }
 
   Map<String, dynamic> _normalizePayload(Map<String, dynamic> data) {
-    final nested = data["transaction"];
-    if (nested is Map<String, dynamic>) return nested;
+    final nestedTransaction = data["transaction"];
+    if (nestedTransaction is Map<String, dynamic>) return nestedTransaction;
     return data;
   }
 

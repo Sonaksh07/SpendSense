@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -36,8 +37,8 @@ class RagService {
       }
 
       return decoded;
-    } catch (e) {
-      throw Exception("API request failed for $uri: $e");
+    } on TimeoutException {
+      throw Exception("API request timed out for $uri");
     }
   }
 }
