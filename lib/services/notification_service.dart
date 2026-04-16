@@ -49,7 +49,7 @@ class NotificationService {
 
   Transaction? _buildTransaction(Map<String, dynamic> data, String raw) {
     final payload = _normalizePayload(data);
-    final amount = _toDouble(payload["amount"] ?? payload["transaction_amount"]);
+    final amount = _resolveAmount(payload);
     if (amount <= 0) return null;
 
     final merchant = _toMerchant(payload);
@@ -77,6 +77,18 @@ class NotificationService {
     if (value is num) return value.toDouble();
     if (value is String) return double.tryParse(value.trim()) ?? 0.0;
     return 0.0;
+  }
+
+  double _resolveAmount(Map<String, dynamic> payload) {
+    final rawAmount = payload["amount"];
+    final isMissingAmount =
+        rawAmount == null || (rawAmount is String && rawAmount.trim().isEmpty);
+
+    if (isMissingAmount) {
+      return _toDouble(payload["transaction_amount"]);
+    }
+
+    return _toDouble(rawAmount);
   }
 
   String _toMerchant(Map<String, dynamic> payload) {
