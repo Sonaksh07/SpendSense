@@ -13,9 +13,7 @@
     <application
         android:label="spendsense"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:icon="@mipmap/ic_launcher">
 
         <!-- ✅ MAIN ACTIVITY -->
         <activity

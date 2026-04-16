@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 
 class RagService {
   static const String _baseUrlFromEnv =
-      String.fromEnvironment('SPENDSENSE_API_BASE_URL', defaultValue: '');
-  static const String _defaultBaseUrl = "http://127.0.0.1:8000";
+      String.fromEnvironment(
+        'SPENDSENSE_API_BASE_URL',
+        defaultValue: 'http://127.0.0.1:8000',
+      );
 
-  String get baseUrl =>
-      _baseUrlFromEnv.trim().isEmpty ? _defaultBaseUrl : _baseUrlFromEnv;
+  String get baseUrl => _baseUrlFromEnv;
 
   Future<Map<String, dynamic>> analyzeText(String text) async {
     final uri = Uri.parse("$baseUrl/transaction");

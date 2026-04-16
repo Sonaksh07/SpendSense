@@ -37,5 +37,5 @@ flutter run --dart-define=SPENDSENSE_API_BASE_URL=http://<YOUR_LAN_IP>:8000
 ## Notes
 
 - `SPENDSENSE_API_BASE_URL` defaults to `http://127.0.0.1:8000` when not provided.
-- Android cleartext HTTP is enabled for local/lab testing.
+- Android cleartext HTTP is enabled in debug builds for local/lab testing.
 - API endpoint expected by app: `POST /transaction`.
