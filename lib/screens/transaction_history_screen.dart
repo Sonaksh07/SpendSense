@@ -31,7 +31,31 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
             key: Key(t.id),
             direction: DismissDirection.endToStart,
 
-            // 🔴 Delete background
+            // 🔥 CONFIRMATION DIALOG
+            confirmDismiss: (direction) async {
+              return await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Confirm Delete"),
+                  content: const Text(
+                      "Are you sure you want to delete this transaction?"),
+                  actions: [
+                    TextButton(
+                      onPressed: () =>
+                          Navigator.of(context).pop(false),
+                      child: const Text("No"),
+                    ),
+                    TextButton(
+                      onPressed: () =>
+                          Navigator.of(context).pop(true),
+                      child: const Text("Yes"),
+                    ),
+                  ],
+                ),
+              );
+            },
+
+            // 🔴 DELETE BACKGROUND
             background: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -39,9 +63,9 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
               child: const Icon(Icons.delete, color: Colors.white),
             ),
 
-            // 🔥 Delete logic
+            // 🔥 DELETE ACTION
             onDismissed: (direction) {
-              TransactionService().deleteTransaction(t.id);
+              TransactionService().removeTransaction(t.id);
 
               setState(() {}); // refresh UI
 
@@ -51,13 +75,15 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
             },
 
             child: Card(
-              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              margin:
+              const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: ListTile(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => ManualEntryScreen(transaction: t),
+                      builder: (_) =>
+                          ManualEntryScreen(transaction: t),
                     ),
                   ).then((_) => setState(() {}));
                 },
@@ -83,7 +109,8 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                   children: [
                     Text(
                       t.formattedAmount,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold),
                     ),
                     if (t.isImpulse)
                       const Icon(
@@ -104,8 +131,9 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const ManualEntryScreen()),
-          ).then((_) => setState(() {})); // refresh after add
+            MaterialPageRoute(
+                builder: (_) => const ManualEntryScreen()),
+          ).then((_) => setState(() {}));
         },
         child: const Icon(Icons.add),
       ),

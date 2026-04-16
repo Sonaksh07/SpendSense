@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 import '../models/categories.dart';
 import '../services/transaction_service.dart';
+import 'package:flutter/services.dart';
 
 class ManualEntryScreen extends StatefulWidget {
   final Transaction? transaction; // ✅ for edit
@@ -53,6 +54,9 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
                 controller: _amountController,
                 decoration: const InputDecoration(labelText: 'Amount (₹)'),
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 validator: (v) => v == null || v.isEmpty ? 'Required' : null,
               ),
 

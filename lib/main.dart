@@ -6,6 +6,8 @@ import 'screens/budget_goals_screen.dart';
 import 'services/notification_service.dart';// add this
 import 'package:hive_flutter/hive_flutter.dart';
 
+@pragma('vm:entry-point')
+void callbackDispatcher() {}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -13,7 +15,7 @@ void main() async {
 
   await Hive.openBox('transactions'); // ✅ open storage box
 
-  await NotificationService().initializeAndStart();
+  await NotificationService().startListening();
 
   runApp(const SpendSenseApp());
 }

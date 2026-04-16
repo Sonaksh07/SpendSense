@@ -73,6 +73,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     final transactions = TransactionService().transactions;
+    final now = DateTime.now();
+
+// Start of week = Monday 00:00
+    final startOfWeek = DateTime(now.year, now.month, now.day)
+        .subtract(Duration(days: now.weekday - 1));
+
+    final thisWeekTransactions = transactions
+        .where((t) {
+      final txnDate = DateTime(
+        t.timestamp.year,
+        t.timestamp.month,
+        t.timestamp.day,
+      );
+      return txnDate.isAtSameMomentAs(startOfWeek) ||
+          txnDate.isAfter(startOfWeek);
+    })
+        .toList()
+      ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
 
     final totalSpent =
     transactions.fold(0.0, (sum, t) => sum + t.amount);
@@ -179,7 +197,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               const SizedBox(height: 8),
 
-              ...transactions
+              ...thisWeekTransactions
                   .take(3)
                   .map((txn) => _buildSpendingItem(txn)),
 

@@ -38,7 +38,10 @@ class TransactionService {
     _transactions.removeWhere((t) => t.id == id);
     _saveToHive(); // important
   }
-
+  //remove
+  void removeTransaction(String id) {
+    _transactions.removeWhere((txn) => txn.id == id);
+  }
   //Edit Transactions
   void updateTransaction(Transaction updatedTxn) {
     final index = _transactions.indexWhere((t) => t.id == updatedTxn.id);

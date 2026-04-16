@@ -14,21 +14,18 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   fl_chart: ^0.68.0
+  http: ^1.2.1
 
-  # UI and utilities
   cupertino_icons: ^1.0.8
 
-  # File upload and CSV parsing
   file_picker: ^8.1.8+1
   csv: ^5.1.1
 
-  # Permissions
   permission_handler: ^11.0.0
 
-  # Notification listener
-  flutter_notification_listener_plus: ^1.3.7
-  # Note: The older 'notification_listener' package is not needed;
-  # flutter_notification_listener_plus replaces it.
+  # ✅ LOCAL FIXED NOTIFICATION PLUGIN
+  notification_listener_service:
+    path: ./notification_listener_service_fixed
 
 dev_dependencies:
   flutter_test:
