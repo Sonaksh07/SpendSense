@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # ✅ UPDATED (important for goal screen image picker)
+  image_picker: ^1.0.0
+
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   fl_chart: ^0.68.0
