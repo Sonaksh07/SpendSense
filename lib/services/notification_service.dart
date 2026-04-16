@@ -48,10 +48,11 @@ class NotificationService {
   }
 
   Transaction? _buildTransaction(Map<String, dynamic> data, String raw) {
-    final amount = (data["amount"] ?? 0).toDouble();
+    final payload = _normalizePayload(data);
+    final amount = _resolveAmount(payload);
     if (amount <= 0) return null;
 
-    final merchant = data["merchant"] ?? "Unknown";
+    final merchant = _toMerchant(payload);
 
     return Transaction(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -64,5 +65,40 @@ class NotificationService {
       anomalyScore: 0.2,
       isImpulse: false,
     );
+  }
+
+  Map<String, dynamic> _normalizePayload(Map<String, dynamic> data) {
+    final nestedTransaction = data["transaction"];
+    if (nestedTransaction is Map<String, dynamic>) return nestedTransaction;
+    return data;
+  }
+
+  double _toDouble(dynamic value) {
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value.trim()) ?? 0.0;
+    if (value != null) {
+      print("⚠️ Unexpected amount type from API: ${value.runtimeType}");
+    }
+    return 0.0;
+  }
+
+  double _resolveAmount(Map<String, dynamic> payload) {
+    final rawAmount = payload["amount"];
+    final isMissingAmount =
+        rawAmount == null || (rawAmount is String && rawAmount.trim().isEmpty);
+
+    if (isMissingAmount) {
+      return _toDouble(payload["transaction_amount"]);
+    }
+
+    return _toDouble(rawAmount);
+  }
+
+  String _toMerchant(Map<String, dynamic> payload) {
+    // Support common aliases from different API payloads.
+    final rawMerchant = payload["merchant"] ?? payload["vendor"] ?? payload["payee"];
+    if (rawMerchant == null) return "Unknown";
+    final merchant = rawMerchant.toString().trim();
+    return merchant.isEmpty ? "Unknown" : merchant;
   }
 }
